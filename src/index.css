@@ -1,0 +1,58 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.9;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  /* background-color: #242424; */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.custom-shadow {
+  box-shadow: 1px 1px 4px 2px #d3d3d3d1;
+}
+
+
+/* Personaliza el encabezado */
+.custom-descriptionsdetalle
+.ant-descriptions-view
+.ant-descriptions-row
+ .ant-descriptions-item-label {
+  background-color:rgb(108, 53, 139); /* Color de fondo para los encabezados */
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Personaliza el encabezado */
+.custom-descriptionsdetalle
+.ant-descriptions-view
+.ant-descriptions-row
+ .ant-descriptions-item-label 
+ {
+  background-color:rgba(44, 33, 49, 0.856) !important; /* Color de fondo para los encabezados */
+  font-weight: bold;
+  color: rgb(255, 255, 255) !important; /* Asegura que el texto sea blanco */
+  text-align: center;
+}
+
+
+/* Personaliza las filas */
+.custom-descriptionsdetalle .ant-descriptions-item-content {
+  background-color: #fffcfc; /* Color de fondo para el contenido */
+  padding: 8px 12px; /* Ajusta el espacio interno */
+}
+
+/* Reduce la altura de las filas */
+.custom-descriptionsdetalle .ant-descriptions-row {
+  height: 40px; /* Ajusta la altura */
+}

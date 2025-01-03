@@ -1,0 +1,39 @@
+.tabla-container {
+  width: 100%; /* O ajusta según el tamaño requerido */
+  max-height: 500px; /* Altura máxima para el contenedor */
+  overflow-y: auto; /* Scroll vertical */
+  overflow-x: auto; /* Scroll horizontal si es necesario */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+   margin-top: 10px;
+   padding: 1rem;
+  }
+  
+  .tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+  }
+  
+  .tabla thead tr {
+    background-color: #296881;
+    color: #fff;
+    height: '5px';
+  }
+  
+  .tabla th,
+  .tabla td {
+    padding: 5px 5px 3px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tabla tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  .fila-seleccionada {
+    background-color: #94bdf7 !important;
+  }
+  

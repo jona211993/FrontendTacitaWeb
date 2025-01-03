@@ -1,0 +1,187 @@
+/*=================   PARA  DATOS GESTIONES =======================*/
+
+.selected-row {
+  background-color: lightblue; /* O el color que prefieras */
+}
+.custom-table{
+  margin-top: 10px;
+}
+  .custom-table .ant-table .ant-table-header th {
+    padding: 0 !important; /* Reduce el padding de los encabezados */
+    height: 25px !important; /* Ajusta la altura de los encabezados */
+    line-height: 25px !important; /* Asegúrate de que la línea de altura se ajuste */
+    background-color: #233b53;
+    color: #ffffff;
+    text-align: center;
+    font-size: 11px;
+  }
+  .custom-table .ant-table .ant-table-cell {
+    padding: 0 !important; /* Reduce el padding */
+    height: 14px !important; /* Ajusta la altura */
+    line-height: 14px !important; /* Ajusta la línea de altura */ 
+    font-size: 14px; 
+  }
+
+  /*=================   PARA  TABLA TELEFONOS =======================*/
+.custom-table-telefonos{
+  margin-top: 10px;
+}
+  .custom-table-telefonos .ant-table .ant-table-header th {
+    padding: 0 !important; /* Reduce el padding de los encabezados */
+    height: 25px !important; /* Ajusta la altura de los encabezados */
+    line-height: 25px !important; /* Asegúrate de que la línea de altura se ajuste */
+    background-color: #233b53;
+    color: #ffffff;
+    text-align: center;
+    font-size: 12px;
+  }
+  .custom-table-telefonos .ant-table .ant-table-cell {
+    padding: 0 !important; /* Reduce el padding */
+    height: 14px !important; /* Ajusta la altura */
+    line-height: 14px !important; /* Ajusta la línea de altura */ 
+    font-size: 14px; 
+  }
+
+/*Para TABLA DE RESULTADO DE BUSQUEDA CLIENTE*/
+  .custom-table-busqClientes .ant-table .ant-table-cell {
+    padding: 0 !important; /* Reduce el padding */
+    height: 5px !important; /* Ajusta la altura */
+    line-height: 15px !important; /* Ajusta la línea de altura */  
+    text-align: center;
+  }
+
+  .custom-table-busqClientes .ant-table .ant-table-header th {
+    padding: 0 !important; /* Reduce el padding de los encabezados */
+    height: 20px !important; /* Ajusta la altura de los encabezados */
+    line-height: 20px !important; /* Asegúrate de que la línea de altura se ajuste */
+    background-color: #054563;
+    color: #ffffff;
+    text-align: center;
+  }
+
+/*=================   PARA PAGOS =======================*/
+
+.custom-table-pagos .ant-table .ant-table-cell {
+  padding: 0 !important; /* Reduce el padding */
+  height: 5px !important; /* Ajusta la altura */
+  line-height: 15px !important; /* Ajusta la línea de altura */  
+  
+}
+
+.custom-table-pagos .ant-table .ant-table-header th {
+  padding: 0 !important; /* Reduce el padding de los encabezados */
+  height: 20px !important; /* Ajusta la altura de los encabezados */
+  line-height: 20px !important; /* Asegúrate de que la línea de altura se ajuste */
+  background-color: #233b53;
+  color: #ffffff;
+  text-align: center;
+}
+
+/*=================   PARA PEXCEciones =======================*/
+
+.custom-table-excepciones .ant-table .ant-table-cell {
+  padding: 0 !important; /* Reduce el padding */
+  height: 5px !important; /* Ajusta la altura */
+  line-height: 15px !important; /* Ajusta la línea de altura */  
+}
+
+.custom-table-excepciones .ant-table .ant-table-header th {
+  padding: 0 !important; /* Reduce el padding de los encabezados */
+  height: 20px !important; /* Ajusta la altura de los encabezados */
+  line-height: 20px !important; /* Asegúrate de que la línea de altura se ajuste */
+  background-color: #233b53;
+  color: #ffffff;
+  text-align: center;
+}
+
+
+/*=================   PARA  MINIMOS =======================*/
+
+.custom-descriptions .ant-descriptions-item {
+  padding: 0 !important; /* Elimina el padding de los items */
+}
+
+.custom-descriptions .ant-descriptions-title {
+  padding: 0 !important; /* Elimina el padding */
+  height: auto !important; /* Ajusta la altura a automática */
+  line-height: 20px !important; /* Reduce el espacio entre líneas */
+}
+
+.custom-descriptions .ant-descriptions-content {
+  padding: 0 !important; /* Elimina el padding del contenido */
+  line-height: 10px !important; /* Reduce el espacio entre líneas */
+}
+
+/* Específico para layout vertical */
+.custom-descriptions .ant-descriptions-item-label {
+  text-align: left; /* Alinea el texto de los títulos si es necesario */
+  padding: 0px !important; /* Elimina el padding */
+  text-align: center;
+ 
+}
+
+.custom-descriptions .ant-descriptions-item-content {
+  padding: 5px !important; /* Elimina el padding del contenido */
+  line-height: 1 !important; /* Reduce el espacio entre líneas */
+  text-align: center;
+}
+
+
+/*=================   PARA  INGRESAR GESTION DATOS PANEL IZQ =======================*/
+
+.custom-descriptions2 .ant-descriptions-item {
+  padding: 0 !important; /* Elimina el padding de los items */
+}
+
+.custom-descriptions2 .ant-descriptions-title {
+  padding: 0 !important; /* Elimina el padding */
+  height: auto !important; /* Ajusta la altura a automática */
+  line-height: 20px !important; /* Reduce el espacio entre líneas */
+}
+
+
+/* Específico para layout vertical cabecera */
+.custom-descriptions2 .ant-descriptions-item-label {
+  text-align: left; /* Alinea el texto de los títulos si es necesario */
+  padding: 6px !important; /* Elimina el padding */
+  text-align: left;
+   background: #71a8c2; 
+ 
+}
+ 
+/*para lo del contenido*/
+.custom-descriptions2 .ant-descriptions-item-content {
+  padding: 5px !important; /* Elimina el padding del contenido */
+  line-height: 1 !important; /* Reduce el espacio entre líneas */
+  text-align: center;
+  font-size: 12px;
+}
+
+ /*=================   PARA  TABLA DETALLE CUENTAS =======================*/
+ 
+ .custom-table-DetalleCuentas .ant-table-thead > tr > th {
+  background-color: rgb(60, 28, 71); /* Color de fondo amarillo para la cabecera */
+  color: white; /* Color del texto */
+  font-weight: bold; /* Texto en negrita */
+  text-align: center; /* Centrar el texto */
+
+}
+
+
+
+ /* ESTILOS APRA EL SLIDER DE AGENDAMIENTO*/
+
+ .custom-slider .ant-slider-handle {
+  background-color: #f50 !important;
+  border-color: #f50 !important;
+}
+
+.custom-slider .ant-slider-handle:hover {
+  box-shadow: 0 0 5px #f50 !important;
+}
+
+
+/* .selected-row {
+  background-color: red !important;
+}
+ */
