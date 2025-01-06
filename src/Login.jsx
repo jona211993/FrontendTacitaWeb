@@ -36,7 +36,7 @@ const Login = () => {
   return (
     <div className=" w-screen h-screen flex gap-20 items-center justify-center p-2 bg-cyan-950">
       <div className="flex flex-col gap-10 items-center w-1/3 xs:w-3/4 xs2:w-4/5 sm:w-1/2 md:w-2/5 lg:w-2/6  h-3/4 rounded-xl p-5 custom-shadow bg-white ">
-        <img className="mt-2" src="src/images/icono-logo.png" alt="Logo" />
+        <img className="mt-2" src="images/icono-logo.png" alt="Logo" />
         <h1 className="text-gray-900 font-semibold font-mono text-3xl">ERP-EXPERTIS</h1>
         <Form
           className=" h-1/6 gap-7"
@@ -96,7 +96,7 @@ const Login = () => {
         </Form>
       </div>
       <div className=" w-1/4" >
-       <img src="src/images/Robot3D.gif" alt="" />           
+       <img src="images/Robot3D.gif" alt="" />           
       </div>
     </div>
   );
