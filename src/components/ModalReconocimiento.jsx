@@ -620,7 +620,7 @@ const ModalReconocimiento = ({ elejida, cerrarModal }) => {
                 <></>
               )}
               <Modal
-                visible={isModalVisible}
+                open={isModalVisible}
                 footer={null}
                 closable={false}
                 centered
@@ -640,7 +640,7 @@ const ModalReconocimiento = ({ elejida, cerrarModal }) => {
             <>
               {" "}
               <Modal
-                visible={isModalVisible}
+                open={isModalVisible}
                 footer={null}
                 closable={false}
                 centered
@@ -659,7 +659,7 @@ const ModalReconocimiento = ({ elejida, cerrarModal }) => {
           )}
         </div>
         <Modal
-          visible={verModalRespuestaOK}
+          open={verModalRespuestaOK}
           footer={null}
           closable={false}
           centered

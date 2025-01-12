@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useData } from "./context/DataContext.jsx";
 
 const Login = () => {
-  const { setUser } = useData();
+  const { setUser , setAutenticado} = useData();
 
   const onFinish = (values) => {
     console.log("Exitoso:", values.usuario);
@@ -13,10 +13,11 @@ const Login = () => {
       .post(`${import.meta.env.VITE_BACKEND_URL}/login`, {
         usuario: values.usuario,
         contrasenia: values.contrasenia,
-      })
+      },  { withCredentials: true })
       .then((res) => {
         if (res.status == 200) {
           setUser(res.data.user);
+          setAutenticado(true)
           navigate("/expertisERP/clientes");
         } else {
           alert("algo salio mal");

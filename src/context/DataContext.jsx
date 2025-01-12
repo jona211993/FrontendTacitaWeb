@@ -1,6 +1,4 @@
-import { createContext, useContext, useState } from "react";
-// import { loginRequest, registerRequest } from "../API/auth.js";
-// import Cookies from 'js-cookie';
+import { createContext, useContext, useState, useEffect } from "react";
 
 export const DataContext = createContext();
 
@@ -8,70 +6,79 @@ export const DataContext = createContext();
 export const useData = () => {
   const context = useContext(DataContext);
   if (!context) {
-    throw new Error("useAuth  debe ser usado con un AuthProvider");
+    throw new Error("useData debe ser usado con un DataProvider");
   }
   return context;
 };
+
 // eslint-disable-next-line react/prop-types
-export const DataProvider = ({children}) => {
+export const DataProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
-  const [user, setUser] = useState(null);
-  const [cliente, setCliente] = useState(null);
-  const [autenticado, setAutenticado] = useState(false);
-  const [clientesBusqueda, setClientesBusqueda] = useState([]);
-  const [productoscliente, setProductosClienteBusqueda] = useState([]);
-  const [gestionesCliente, setGestionesCliente] = useState([]);
-  const [cancelado, setCancelado] = useState(false)
-  const [gestionElegida, setGestionElegida] = useState(null);
+  const [cliente, setCliente] = useState(() => {
+    const savedCliente = localStorage.getItem("cliente");
+    return savedCliente ? JSON.parse(savedCliente) : null;
+  });
 
-//   const [idJust, setIdJust] = useState();
-//   const [idSolVac, setIdSolVac] = useState();
-//   const [filtrosJustificaciones, setFiltrosJustificaciones] = useState({
-//     fechaInicio: null,
-//     fechaFin: null,
-//     asesor: '',
-//     grupo: ''
-//   });
+  const [autenticado, setAutenticado] = useState(() => {
+    const savedAutenticado = localStorage.getItem("autenticado");
+    return savedAutenticado === "true"; // "true" como string convertido a booleano
+  });
 
+  const [clientesBusqueda, setClientesBusqueda] = useState(() => {
+    const savedClientesBusqueda = localStorage.getItem("clientesBusqueda");
+    return savedClientesBusqueda ? JSON.parse(savedClientesBusqueda) : [];
+  });
 
+  const [productoscliente, setProductosClienteBusqueda] = useState(() => {
+    const savedProductosCliente = localStorage.getItem("productoscliente");
+    return savedProductosCliente ? JSON.parse(savedProductosCliente) : [];
+  });
 
-//   const signup = async (user) => {
-//     try {
-//       const res = await registerRequest(user);
-//       console.log(res.data);
-//       setUser(res.data);
-//       setAutenticado(true);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+  const [gestionesCliente, setGestionesCliente] = useState(() => {
+    const savedGestionesCliente = localStorage.getItem("gestionesCliente");
+    return savedGestionesCliente ? JSON.parse(savedGestionesCliente) : [];
+  });
 
-//   const signIn = async (user) => {
-//     try {
-//       const res = await loginRequest(user);
-//       // console.log('esto esta en data');
-//       // console.log(res.data.user);
-//       setUser(res.data);
-//       setAutenticado(true);
-//     } catch (error) {
-//       console.log(error.response);
-//       setErrores(error.response.data);
-//     }
-//   };
- 
-//   useEffect(() => {
-//      const cookies = Cookies.get()  
-//      if(cookies.token){
-//         // console.log(cookies.token)
-//      }
-    
-//   }, [])
-  
+  const [cancelado, setCancelado] = useState(() => {
+    const savedCancelado = localStorage.getItem("cancelado");
+    return savedCancelado === "true"; // "true" como string convertido a booleano
+  });
+
+  const [gestionElegida, setGestionElegida] = useState(() => {
+    const savedGestionElegida = localStorage.getItem("gestionElegida");
+    return savedGestionElegida ? JSON.parse(savedGestionElegida) : null;
+  });
+
+  // Guarda los estados en localStorage cuando cambian
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+    localStorage.setItem("autenticado", autenticado.toString()); // Guarda 'true' o 'false' como string
+    localStorage.setItem("cliente", JSON.stringify(cliente));
+    localStorage.setItem("clientesBusqueda", JSON.stringify(clientesBusqueda));
+    localStorage.setItem("productoscliente", JSON.stringify(productoscliente));
+    localStorage.setItem("gestionesCliente", JSON.stringify(gestionesCliente));
+    localStorage.setItem("cancelado", cancelado.toString());
+    localStorage.setItem("gestionElegida", JSON.stringify(gestionElegida));
+  }, [
+    user,
+    autenticado,
+    cliente,
+    clientesBusqueda,
+    productoscliente,
+    gestionesCliente,
+    cancelado,
+    gestionElegida
+  ]);
+
   return (
     <DataContext.Provider
       value={{
-        // signup,
-        // signIn,
         user,
         cliente,
         autenticado,
@@ -88,15 +95,6 @@ export const DataProvider = ({children}) => {
         setCliente,
         setAutenticado,
         setCancelado
-        // errores,
-        // idJust,
-        // setIdJust,
-        // idSolVac,
-        // setIdSolVac,
-        // setErrores,
-        // setAutenticado,
-        // filtrosJustificaciones,
-        // setFiltrosJustificaciones
       }}
     >
       {children}

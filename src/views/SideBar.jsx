@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import {
-  CalendarOutlined ,
-  FileOutlined,  
-  TeamOutlined, 
-  FlagOutlined ,
-  BookOutlined ,
-  FolderOpenOutlined ,
-  DollarOutlined ,
-  WarningOutlined ,
-  
+  CalendarOutlined,
+  FileOutlined,
+  TeamOutlined,
+  FlagOutlined,
+  BookOutlined,
+  FolderOpenOutlined,
+  DollarOutlined,
+  WarningOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { Logo } from "../components/Logo";
@@ -27,6 +27,9 @@ import ModuloPagosReconocidos from "./ModuloPagosReconocidos.jsx";
 import ModuloPagosNOR from "./ModuloPagosNOR.jsx";
 import Reclamos from "./Reclamos.jsx";
 import ReclamosRegistro from "./ReclamosRegistro.jsx";
+import { useNavigate } from "react-router-dom";
+import PrivateRoute from "../components/PrivateRoute.jsx";
+// import Cookies from "js-cookie";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -44,6 +47,34 @@ const SideBar = () => {
   const { cliente, user } = useData();
   const location = useLocation();
   const [selectedKeys, setSelectedKeys] = useState([]);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3005/logout", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("Respuesta del servidor:", result);
+
+      if (result.Status === "Success") {
+        console.log(
+          "La sesión se cerró correctamente y la cookie fue eliminada."
+        );
+        navigate("/login"); // Redirigir al login
+      } else {
+        console.error("Error al cerrar sesión:", result);
+      }
+    } catch (error) {
+      console.error("Error al comunicarse con el servidor:", error);
+    }
+  };
 
   useEffect(() => {
     // Actualiza selectedKeys con la ruta actual
@@ -77,14 +108,13 @@ const SideBar = () => {
     ]),
     getItem("Lista Excepciones", "exepciones", <FlagOutlined />),
     getItem("Reclamos", "expertisERP/reclamos", <BookOutlined />, [
-      getItem("Historial",   "expertisERP/reclamosHistorial"),
-      getItem("Registro","expertisERP/reclamosRegistro"), 
-    
+      getItem("Historial", "expertisERP/reclamosHistorial"),
+      getItem("Registro", "expertisERP/reclamosRegistro"),
     ]),
     getItem("Base Documentos", "5", <FolderOpenOutlined />),
     getItem("Pagos", "sub2", <DollarOutlined />, [
-      getItem("No Reconocidos",   "expertisERP/pagosNOR"),
-      getItem("Reconocidos","expertisERP/pagosReconocidos"), 
+      getItem("No Reconocidos", "expertisERP/pagosNOR"),
+      getItem("Reconocidos", "expertisERP/pagosReconocidos"),
     ]),
     getItem("Bases", "sub3", <TeamOutlined />, [
       getItem("Base Manual", "8"),
@@ -100,11 +130,21 @@ const SideBar = () => {
       getItem("Lista", "14"),
       getItem("Registro", "15"),
     ]),
+    getItem(
+      "Cerrar Sesión",
+      "logout", // Cambia el key si es necesario
+      <LogoutOutlined />
+    ),
   ];
 
   return (
-    <Layout style={{ minHeight: "100vh"}}>
-      <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed} width={250}>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+        width={250}
+      >
         <div className="demo-logo-vertical" />
         <Logo />
         {!collapsed && (
@@ -112,7 +152,18 @@ const SideBar = () => {
             <h1>{user.alias}</h1>
           </div>
         )}
-        <Menu theme="dark" mode="inline" selectedKeys={selectedKeys} >
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={selectedKeys}
+          onClick={({ key }) => {
+            if (key === "logout") {
+              handleLogout(); // Ejecutar la función de logout
+            } else {
+              navigate(`/${key}`); // Redirigir para otros ítems
+            }
+          }}
+        >
           {items.map((item) =>
             item.children ? (
               <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
@@ -145,35 +196,62 @@ const SideBar = () => {
         <Content className="m-0  bg-white">
           <div className="m-2  h-full">
             <Routes>
-              <Route path="/clientes" element={<MenuClientes />} />
-              <Route path="/detalleCliente" element={<DetalleCliente />} />
-              <Route path="/pagosReconocidos" element={<ModuloPagosReconocidos/>} />
-              <Route path="/pagosNOR" element={<ModuloPagosNOR/>} />
-              <Route path="/exepciones" element={<ListaExcepciones />} />
+              <Route
+                path="/clientes"
+                element={<PrivateRoute element={<MenuClientes />} />}
+              />
+              <Route
+                path="/detalleCliente"
+                element={<PrivateRoute element={<DetalleCliente />} />}
+              />
+              <Route
+                path="/pagosReconocidos"
+                element={<PrivateRoute element={<ModuloPagosReconocidos />} />}
+              />
+              <Route
+                path="/pagosNOR"
+                element={<PrivateRoute element={<ModuloPagosNOR />} />}
+              />
+              <Route
+                path="/exepciones"
+                element={<PrivateRoute element={<ListaExcepciones />} />}
+              />
               <Route
                 path="/cliente/ingresarGestion"
-                element={<IngresarGestion />}
+                element={<PrivateRoute element={<IngresarGestion />} />}
               />
               <Route
                 path="/cliente/detalleCuentas"
-                element={<DetalleCuentas></DetalleCuentas>}
+                element={<PrivateRoute element={<DetalleCuentas />} />}
               />
-              <Route path="/cliente/mensaje" element={<Mensaje />} />
+              <Route
+                path="/cliente/mensaje"
+                element={<PrivateRoute element={<Mensaje />} />}
+              />
               <Route
                 path="/cliente/solExcepcion"
-                element={<SolicitarExcepcion />}
+                element={<PrivateRoute element={<SolicitarExcepcion />} />}
               />
               <Route
                 path="/cliente/solDocumento"
-                element={<SolicitudDocumento></SolicitudDocumento>}
+                element={<PrivateRoute element={<SolicitudDocumento />} />}
               />
               <Route
                 path="/cliente/ingresarGestion"
-                element={<IngresarGestion />}
+                element={<PrivateRoute element={<IngresarGestion />} />}
               />
-              <Route path="/pagos" element={<Pagos />} />
-              <Route path="/reclamosHistorial" element={<Reclamos></Reclamos>} />
-              <Route path="/reclamosRegistro" element={<ReclamosRegistro></ReclamosRegistro>} />
+              <Route
+                path="/pagos"
+                element={<PrivateRoute element={<Pagos />} />}
+              />
+              <Route
+                path="/reclamosHistorial"
+                element={<PrivateRoute element={<Reclamos />} />}
+              />
+              <Route
+                path="/reclamosRegistro"
+                element={<PrivateRoute element={<ReclamosRegistro />} />}
+              />
             </Routes>
           </div>
         </Content>
