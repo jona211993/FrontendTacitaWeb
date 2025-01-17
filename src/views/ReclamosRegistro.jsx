@@ -1,8 +1,12 @@
+import FormularioReclamo from "../components/FormularioReclamo"
 
 
 const ReclamosRegistro = () => {
   return (
-    <div>ReclamosRegistro</div>
+    <div className=" h-full">
+       <h1 className="font-bold text-2xl">Registro Reclamo</h1>
+      <FormularioReclamo></FormularioReclamo>
+    </div>
   )
 }
 
