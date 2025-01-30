@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { useData } from "../../context/DataContext.jsx";
 import "../../styles/estlosAntDesginn.css";
 import { useNavigate } from "react-router-dom";
-import 'animate.css';
+import "animate.css";
 
 const { TextArea } = Input;
 
@@ -102,7 +102,6 @@ const SolicitarExcepcion = () => {
   }, []);
 
   useEffect(() => {
-    
     console.log("El valor actualizado de sustentoFondos es: ", sustentoFondos);
     console.log(
       "El valor actualizado de fecha pago: ",
@@ -224,13 +223,16 @@ const SolicitarExcepcion = () => {
 
     try {
       // Realizamos la solicitud con fetch
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/insertarExcepcion`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data), // Convertimos el objeto 'data' a una cadena JSON
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/insertarExcepcion`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data), // Convertimos el objeto 'data' a una cadena JSON
+        }
+      );
 
       // Verificamos si la respuesta es exitosa
       if (!response.ok) {
@@ -545,16 +547,13 @@ const SolicitarExcepcion = () => {
                   <div className="m-0 text-red-400">{errors.cuota}</div>
                 )}
                 <div className=" flex w-full  pl-4  items-center">
-                  <label className="text-white" >
-                    NUM. CUOTAS :
-                  </label>
+                  <label className="text-white">NUM. CUOTAS :</label>
 
                   {/* Input con lógica condicional */}
                   <InputNumber className="text-white" {...inputProps} />
                 </div>
               </div>
             </div>
-
 
             <div className="flex w-full gap-11">
               <div className="w-3/4 flex flex-col items-center">
@@ -653,7 +652,7 @@ const SolicitarExcepcion = () => {
                   value={valorNumDeudas}
                   onChange={handleChangeNumDeudas} // Función para manejar el cambio de valor
                   placeholder="Ingresa un número"
-                  style={{ width:150 }} // Estilo opcional para el tamaño
+                  style={{ width: 150 }} // Estilo opcional para el tamaño
                 />
               </div>
               <div className="flex items-center gap-5 ">
@@ -702,20 +701,19 @@ const SolicitarExcepcion = () => {
                       handleMontoTotal(value);
                     }
                   }}
-                  style={{ width:150 }} // Estilo opcional para el tamaño
+                  style={{ width: 150 }} // Estilo opcional para el tamaño
                 />
               </div>
             </div>
           </div>
           <div>
-
             <div className="flex  flex-col ml-5 mt-5 gap-8">
               <div className=" flex gap-7">
                 <label className="text-white" htmlFor="">
                   SUSTENTO DE FONDOS :
                 </label>
                 <Select
-                  className="w-44 "                 
+                  className="w-44 "
                   onChange={(value) => {
                     handleChangeSustentoFondos(value);
                   }}
@@ -734,7 +732,6 @@ const SolicitarExcepcion = () => {
                   <label className="text-white">Otro sustento:</label>
                   <Input
                     className="w-3/4"
-                    
                     onChange={(event) => {
                       // Obtén el valor del input desde event.target.value
                       const value = event.target.value;
@@ -772,10 +769,27 @@ const SolicitarExcepcion = () => {
           </div>
         </div>
         {/* COlumna 2 */}
-        <div className="w-2/6 flex  flex-col items-center justify-center b ">
-
+        <div className="w-2/6 flex h-full   flex-col items-center gap-10 ">
+          <div className="w-full h-1/3 flex  flex-col items-center  justify-center ">
+            {/* <img src="/../src/images/Robot3D.gif" alt="logo" /> */}
+            <h1 className="font-bold text-lg mb-5 ">Datos del Cliente</h1>
+            <div>
+              <label className="font-semibold" >Nombre: </label>
+              <label>{cliente.NOMBRE_COMPLETO}</label>
+            </div>
+            <div>
+            <label className="font-semibold" >Documento : </label>
+              <label>{cliente.DOCUMENTO}</label>
+            </div>
+            <div>
+            <label className="font-semibold" >Cartera : </label>
+              <label>{cliente.CARTERA}</label>
+            </div>
+          </div>
           <div className="w-2/3  ">
-            <h1 className="m-1 mb-3 font-bold text-lg">Datos de los Productos</h1>
+            <h1 className="m-1 mb-3 text-lg font-bold ">
+              Datos de los Productos
+            </h1>
             <Descriptions
               layout="vertical"
               bordered
@@ -783,10 +797,6 @@ const SolicitarExcepcion = () => {
               column={2}
               className="custom-descriptions" // Aplica clase personalizada
             />
-          </div>
-
-          <div className="w-2/3 h-1/2 flex items-center  justify-center ">
-            <img src="/../src/images/Robot3D.gif" alt="logo" />
           </div>
         </div>
       </div>

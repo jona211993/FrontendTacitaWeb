@@ -134,9 +134,9 @@ const FormularioReclamo = () => {
       setListaVia([
         "Ministerio público",
         "Indecopi",
-        "Carta notarial ",
-        "Web Expertis ",
-        "Telefónico ",
+        "Carta notarial",
+        "Web Expertis",
+        "Telefónico",
       ]);
     };
 
@@ -233,19 +233,21 @@ const FormularioReclamo = () => {
       console.log("Respuesta del servidor:", data);
       setNombre(data.data.alias);
       //obtiendo el Mensaje a mostrar::::
-      if (data.data.idPersona != null && data.data.alias == null) {
+
+      if (data.data.idPersona != null && data.data.alias == null && data.data.idDeudor !== null) {
         setMensaje("Se encuentra en la base de deudores");
         setEsCliente("Si");
         setNombre(data.data.nomCompleto);
+        setCheckDniDeudor(false);
         setHabilitarCheckDniDeudor(false);
         setHabilitarSelectCliente(false);
         setHabilitarInputDniDeudor(false);
         setHabilitarBtnValidar(false);
-        setDniDeudor("SIN DNI");
+        setDniDeudor(dniReclamo);
         setValidar1(true);
         setValidar2(true);
         showModal();
-      } else if (data.data.idPersona != null && data.data.alias != null) {
+      } else if (data.data.idPersona != null && data.data.alias != null && data.data.idDeudor === null) {
         setMensaje("Registrado como empleado");
         setNombre(data.data.nomCompleto);
         setEsCliente("No");
@@ -255,10 +257,19 @@ const FormularioReclamo = () => {
         setHabilitarBtnValidar(true);
         showModal();
       } else {
-        setMensaje("PERSONA NUEVA");
-        setEsCliente("No");
-        setHabilitarSelectCliente(false);
-        showModal();
+         if(data.data.idPersona != null){
+          setMensaje("YA SE REGISTRÓ");
+          setEsCliente("No");
+          setHabilitarSelectCliente(false);
+          showModal();
+         }else{
+          setMensaje("PERSONA NUEVA");
+          setEsCliente("No");
+          setHabilitarSelectCliente(false);
+          showModal();
+         }
+
+       
       }
     } catch (error) {
       console.error("Hubo un error:", error.message);
@@ -423,7 +434,14 @@ const FormularioReclamo = () => {
               className="border-2 rounded-md "
               type="text"
               value={dniReclamo}
-              onChange={handleInputChangeDniReclamo}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                // Permitir solo números y limitar a 8 caracteres
+                if (/^\d*$/.test(inputValue) && inputValue.length <= 8) {
+                  handleInputChangeDniReclamo(e);
+                }
+              }}
+              maxLength={8} // Evitar que se escriban más de 8 caracteres
             />
             {errors.dniReclamo && (
               <span className="text-red-500 text-sm">{errors.dniReclamo}</span>
@@ -499,7 +517,13 @@ const FormularioReclamo = () => {
               className="border-2 rounded-md "
               type="text"
               value={dniDeudor}
-              onChange={handleInputChangeDniDeudor}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                // Permitir solo números y limitar a 8 caracteres
+                if (/^\d*$/.test(inputValue) && inputValue.length <= 11) {
+                  handleInputChangeDniDeudor(e);
+                }
+              }}
               disabled={!habilitarInputDniDeudor}
             />
             {errors.dniDeudor && (

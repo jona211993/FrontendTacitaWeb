@@ -10,12 +10,13 @@ import CartaPlanilla from "./CartaPlanilla";
 import CartaAgresiva from "./CartaAgresiva";
 import CartaEjecucionGarantia from "./CartaEjecucionGarantia";
 import 'animate.css';
+import { useData } from "../../../context/DataContext.jsx"
 
 
 const SolicitudDocumento = () => {
   const [mostrarImagen, setMostrarImagen] = useState(true);
   const [componenteSeleccionado, setComponenteSeleccionado] = useState(null);
-
+ const {cliente } = useData();
   const { register, handleSubmit, watch } = useForm();
   const documentoElegido = watch("documentoElegido");
 
@@ -66,8 +67,22 @@ const SolicitudDocumento = () => {
 
   return (
     <div className="h-full w-full flex flex-col items-center animate__animated animate__fadeIn animate__faster">
-      <div className="mt-5 mb-5">
+      <div className="mt-5 mb-2">
         <h1 className="text-xl font-semibold">Solicitud Documento</h1>
+      </div>
+      <div className="flex w-full mb-4 justify-between pl-10 pr-10">
+         <div>
+            <label className=" text-blue-950 font-semibold">Cliente : </label>
+             <label >{cliente.NOMBRE_COMPLETO}</label>
+         </div>
+         <div>
+         <label className="text-blue-950 font-semibold">Documento : </label>
+         <label >{cliente.DOCUMENTO}</label>
+         </div>
+         <div>
+         <label className="text-blue-950 font-semibold">Cartera : </label>
+         <label >{cliente.CARTERA}</label>
+         </div>
       </div>
       <form className="flex gap-5" onSubmit={handleSubmit(onSubmit)}>
         <label>Elija un tipo de documento:</label>

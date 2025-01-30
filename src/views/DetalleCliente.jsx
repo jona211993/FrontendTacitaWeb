@@ -788,7 +788,7 @@ const DetalleCliente = () => {
           </Modal>
           <Modal
             title="Estado del Cliente"
-            visible={isModalVisibleEstadoCliente}
+            open={isModalVisibleEstadoCliente}
             onOk={handleOkEstadoCliente}
             onCancel={handleOkEstadoCliente}
           >
@@ -796,7 +796,7 @@ const DetalleCliente = () => {
           </Modal>
           <Modal
             title="Detalle Excepción"
-            visible={isModalVisible}
+            open={isModalVisible}
             onOk={handleOk}
             onCancel={() => setIsModalVisible(false)} // Maneja el cierre del modal
             footer={[
@@ -855,9 +855,14 @@ const DetalleCliente = () => {
                   </p>
                 </div>
 
-                <p>
-                  <strong>Observación Gestor:</strong> {selectedRow.OBSERVACION}
-                </p>
+                <div className="">
+                <strong>Observación Gestor:</strong> 
+                  <div>
+                     <textarea disabled={true}  className="w-full h-44" value={ selectedRow.OBSERVACION.replaceAll("¦", "\n")}></textarea>
+                  </div>
+                </div>
+                  
+                
                 <p>
                   <strong>Observación Aprobador:</strong>{" "}
                   {selectedRow.OBSERVACION2}

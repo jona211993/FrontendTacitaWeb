@@ -23,13 +23,14 @@
   
   .tabla th,
   .tabla td {
-    padding: 5px 5px 3px 15px;
+    padding: 3px 5px 3px 15px;
     text-align: center;
-    border-bottom: 1px solid #ddd;
+    align-items: center;
+    border-bottom: 0px solid #ddd;
   }
   
   .tabla tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #d2e0f3;
     cursor: pointer;
   }
   

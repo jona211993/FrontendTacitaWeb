@@ -29,6 +29,8 @@ import Reclamos from "./Reclamos.jsx";
 import ReclamosRegistro from "./ReclamosRegistro.jsx";
 import { useNavigate } from "react-router-dom";
 import PrivateRoute from "../components/PrivateRoute.jsx";
+import Excepciones from "./Excepciones.jsx";
+import ExcepcionesAsesor from "./ExcepcionesAsesor.jsx";
 // import Cookies from "js-cookie";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -77,9 +79,15 @@ const SideBar = () => {
   };
 
   useEffect(() => {
-    // Actualiza selectedKeys con la ruta actual
-    setSelectedKeys([location.pathname.replace("/", "")]);
-  }, [location.pathname]);
+     console.log(user.idCargo)
+    if (location.pathname.includes("expertisERP/excepciones/Asesor") && user.idCargo === 1) {
+      setSelectedKeys(["expertisERP/excepciones/Asesor"]);
+    } else if (location.pathname.includes("expertisERP/excepciones")) {
+      setSelectedKeys(["expertisERP/excepciones"]);
+    } else {
+      setSelectedKeys([location.pathname.replace("/", "")]);
+    }
+  }, [location.pathname, user.idCargo]);
 
   const items = [
     getItem("Consulta Cliente", "sub1", <TeamOutlined />, [
@@ -106,7 +114,12 @@ const SideBar = () => {
           ]
         : []),
     ]),
-    getItem("Lista Excepciones", "exepciones", <FlagOutlined />),
+
+    (user.idCargo === 1)
+      ? getItem("Lista Excepciones (Asesor)", "expertisERP/excepciones/Asesor", <FlagOutlined />)
+      : getItem("Lista Excepciones", "expertisERP/excepciones", <FlagOutlined />)
+    ,
+
     getItem("Reclamos", "expertisERP/reclamos", <BookOutlined />, [
       getItem("Historial", "expertisERP/reclamosHistorial"),
       getItem("Registro", "expertisERP/reclamosRegistro"),
@@ -252,6 +265,15 @@ const SideBar = () => {
                 path="/reclamosRegistro"
                 element={<PrivateRoute element={<ReclamosRegistro />} />}
               />
+               <Route
+                path="/excepciones/Asesor"
+                element={<PrivateRoute element={<ExcepcionesAsesor />} />}
+              />
+              <Route
+                path="/excepciones"
+                element={<PrivateRoute element={<Excepciones />} />}
+              />
+              
             </Routes>
           </div>
         </Content>

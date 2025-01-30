@@ -6,7 +6,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   WarningOutlined,
-  SnippetsOutlined
+  SnippetsOutlined,
 } from "@ant-design/icons";
 // import { useData } from "../context/DataContext.jsx";
 import { DatePicker, ConfigProvider, Input, Modal, Result } from "antd";
@@ -37,7 +37,8 @@ const Reclamos = () => {
   const [isModalEditarOpen, setIsModalEditarOpen] = useState(false);
   const [isModalEliminarOpen, setIsModalEliminarOpen] = useState(false);
   const [isModalExitoOpen, setIsModalExitoOpen] = useState(false);
-  const[habilitarBotonBuscar, setHabilitarBotonBuscar] = useState(false)
+  const [habilitarBotonBuscar, setHabilitarBotonBuscar] = useState(false);
+  const [filterEstado, setFilterEstado] = useState(""); // Estado del filtro
 
   const showModalVer = () => {
     setIsModalVerOpen(true);
@@ -53,7 +54,6 @@ const Reclamos = () => {
     setIsModalEliminarOpen(false);
   };
 
-
   const showModalExito = () => {
     setIsModalExitoOpen(true);
   };
@@ -64,7 +64,6 @@ const Reclamos = () => {
   const closeModalEditar = () => {
     setIsModalEditarOpen(false);
   };
-
 
   // const closeModalEliminar = () => {
   //   setIsModalEliminarOpen(false);
@@ -147,7 +146,7 @@ const Reclamos = () => {
 
       const data = await response.json();
       console.log("Respuesta del servidor:", data);
-      closeModalEliminar();     
+      closeModalEliminar();
       showModalExito();
       window.location.reload();
     } catch (error) {
@@ -157,13 +156,12 @@ const Reclamos = () => {
 
   useEffect(() => {
     const obtenerViasReclamo = async () => {
-     
       setListaVia([
         "Ministerio público",
         "Indecopi",
-        "Carta notarial ",
-        "Web Expertis ",
-        "Telefónico ",
+        "Carta notarial",
+        "Web Expertis",
+        "Telefónico",
       ]);
     };
 
@@ -192,6 +190,22 @@ const Reclamos = () => {
   useEffect(() => {
     obtenerDatos();
   }, [valorSeleccionado]);
+  useEffect(() => {
+    console.log("id es:", id )
+    setHabilitarBotonBuscar(id && id.trim() !== "");
+  }, [id]);
+
+  useEffect(() => {
+    setHabilitarBotonBuscar(docReclamo && docReclamo.trim() !== "");
+  }, [docReclamo]);
+
+  useEffect(() => {
+    setHabilitarBotonBuscar(docDeudor && docDeudor.trim() !== "");
+  }, [docDeudor]);
+
+  useEffect(() => {
+    setHabilitarBotonBuscar(viaReclamo && viaReclamo.trim() !== "");
+  }, [viaReclamo]);
 
   const handleChange = (value) => {
     if (value === "ID") {
@@ -209,14 +223,11 @@ const Reclamos = () => {
     }
   };
 
- 
-  
-
   const handleDateChange = (dates) => {
     if (dates) {
       setFechaInicio(dates[0].format("YYYY-MM-DD")); // Guardamos como string con formato
       setFechaFinal(dates[1].format("YYYY-MM-DD"));
-      setHabilitarBotonBuscar(true) 
+      setHabilitarBotonBuscar(true);
     } else {
       setFechaInicio(null);
       setFechaFinal(null);
@@ -224,42 +235,16 @@ const Reclamos = () => {
   };
 
   const handleChangeId = (event) => {
-    setId(event.target.value); // Guarda el texto del input     
-    
-      
-  };
-
-  useEffect(() => {
-    setHabilitarBotonBuscar( id && id.trim() !== "");
-  
-  }, [id]);
-
-  useEffect(() => {
-    setHabilitarBotonBuscar( docReclamo && docReclamo.trim() !== "");
-  
-  }, [docReclamo]);
-
-  useEffect(() => {
-    setHabilitarBotonBuscar( docDeudor && docDeudor.trim() !== "");
-  
-  }, [docDeudor]);
-  
- 
-
+    setId(event.target.value); // Guarda el texto del input
+  }; 
   const handleChangeDocReclamo = (event) => {
     setDocReclamo(event.target.value); // Guarda el texto del input
-
   };
-
   const handleChangeDocDeudor = (event) => {
     setDocDeudor(event.target.value); // Guarda el texto del input
-     
   };
-
   const handleChangeViaReclamo = (value) => {
-    setViaReclamo(value);
-
-  };
+    setViaReclamo(value);  };
 
   const reiniciarComponente = () => {
     setValorSeleccionado("ID");
@@ -279,7 +264,11 @@ const Reclamos = () => {
     // Aquí puedes realizar cualquier acción adicional con los datos de la fila
     console.log("Fila seleccionada:", index);
   };
-
+ 
+   // Filtrar datos según el estado seleccionado
+   const filteredDatos = filterEstado
+   ? datosMostrar.filter((row) => row.estadoReclamo === filterEstado)
+   : datosMostrar;
   return (
     <ConfigProvider locale={locale}>
       <div className="w-full   flex items-center justify-center">
@@ -292,7 +281,8 @@ const Reclamos = () => {
               defaultValue="ID" // Valor por defecto
               style={{ width: 200 }} // Ancho del selector
               onChange={handleChange} // Manejo del cambio
-              value={valorSeleccionado}            >
+              value={valorSeleccionado}
+            >
               <Option value="ID">ID</Option>
               <Option value="DOC RECLAMO">DOC RECLAMO</Option>
               <Option value="DOC DEUDOR">DOC DEUDOR</Option>
@@ -308,8 +298,7 @@ const Reclamos = () => {
                   format="YYYY-MM-DD"
                   style={{ width: "100%" }}
                 />
-              </div> 
-                         
+              </div>
             )}
             {valorSeleccionado === "ID" && (
               <div className="">
@@ -390,64 +379,84 @@ const Reclamos = () => {
               <th> DOC Rec</th>
               <th>esCliente</th>
               <th>Nombre</th>
-              <th>Estado</th>
+              <th> Estado
+            {/* Filtro en la misma columna */}
+            <select
+              value={filterEstado}
+              onChange={(e) => setFilterEstado(e.target.value)}
+              className="ml-2 border border-gray-300 rounded px-1 py-1 text-xs text-black"
+            >
+              <option value="">Todos</option>
+              <option value="Resuelto">Resuelto</option>
+              <option value="No resuelto">No Resuelto</option>
+            </select></th>
               <th>Canal</th>
               <th> DOC Deu</th>
               <th>Acciones</th> {/* Nueva columna */}
             </tr>
           </thead>
           <tbody>
-            {datosMostrar.length > 0 ? (
-              datosMostrar.map((row, index) => (
-                <tr
-                  key={row.idPago}
-                  className={selectedRow === index ? "fila-seleccionada" : ""}
-                  onClick={() => handleRowClick(row, index)}
-                >
-                  <td>{row.idReclamo}</td>
-                  <td>{row.fecReclamo}</td>
-                  <td>{row.fecSuceso}</td>
-                  <td>{row.via}</td>
-                  <td>{row.DNI_RECLAMO}</td>
-                  <td>{row.esCliente}</td>
-                  <td>{row.nombreReferencial}</td>
-                  <td>{row.estadoReclamo}</td>
-                  <td>{row.canal}</td>
-                  <td>{row.DNI_DEUDOR}</td>
-                  <td className="flex gap-2 justify-center">
-                    <Button
-                      className="bg-blue-600"
-                      icon={<EyeOutlined style={{ color: "white" }} />}
-                      onClick={() => showModalVer(row)}
-                    />
-                    <Button
-                      className="bg-green-800"
-                      icon={<EditOutlined style={{ color: "white" }} />}
-                      onClick={() => showModalEditar(row)}
-                    />
-                    <Button
-                      className="bg-red-600"
-                      icon={<DeleteOutlined style={{ color: "white" }} />}
-                      onClick={() => showModalEliminar(row)}
-                    />
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6">Cargando datos...</td>
-              </tr>
-            )}
+          {filteredDatos.length > 0 ? (
+          filteredDatos.map((row, index) => (
+            <tr
+              key={row.idPago}
+              className={selectedRow === index ? "fila-seleccionada" : ""}
+              onClick={() => handleRowClick(row, index)}
+            >
+              <td>{row.idReclamo}</td>
+              <td>{row.fecReclamo}</td>
+              <td>{row.fecSuceso}</td>
+              <td>{row.via}</td>
+              <td>{row.DNI_RECLAMO}</td>
+              <td>{row.esCliente}</td>
+              <td>{row.nombreReferencial}</td>
+              <td
+                style={{
+                  color: row.estadoReclamo === "Resuelto" ? "green" : "red",
+                }}
+              >
+                {row.estadoReclamo}
+              </td>
+              <td>{row.canal}</td>
+              <td>{row.DNI_DEUDOR}</td>
+              <td className="flex gap-2 justify-center">
+                <Button
+                  className="bg-blue-600"
+                  icon={<EyeOutlined style={{ color: "white" }} />}
+                  onClick={() => showModalVer(row)}
+                />
+                <Button
+                  className="bg-green-800"
+                  icon={<EditOutlined style={{ color: "white" }} />}
+                  onClick={() => showModalEditar(row)}
+                />
+                <Button
+                  className="bg-red-600"
+                  icon={<DeleteOutlined style={{ color: "white" }} />}
+                  onClick={() => showModalEliminar(row)}
+                />
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="11">Cargando datos...</td>
+          </tr>
+        )}
           </tbody>
         </table>
         {isModalVerOpen && (
           <Modal
-          title={
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <SnippetsOutlined style={{ color: "blue", fontSize: "20px" }} />
-              <span style={{ color: "blue", fontWeight: "bold" }}>DETALLE DEL RECLAMO</span>
-            </div>
-          }
+            title={
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                <SnippetsOutlined style={{ color: "blue", fontSize: "20px" }} />
+                <span style={{ color: "blue", fontWeight: "bold" }}>
+                  DETALLE DEL RECLAMO
+                </span>
+              </div>
+            }
             open={isModalVerOpen}
             onCancel={closeModalVer}
             width={800}
@@ -565,14 +574,18 @@ const Reclamos = () => {
             </div>
           </Modal>
         )}
-          {isModalEditarOpen && (
+        {isModalEditarOpen && (
           <Modal
-          title={
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <EditOutlined style={{ color: "green", fontSize: "20px" }} />
-              <span style={{ color: "green", fontWeight: "bold" }}>EDITANDO RECLAMO</span>
-            </div>
-          }
+            title={
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                <EditOutlined style={{ color: "green", fontSize: "20px" }} />
+                <span style={{ color: "green", fontWeight: "bold" }}>
+                  EDITANDO RECLAMO
+                </span>
+              </div>
+            }
             open={isModalEditarOpen}
             onCancel={closeModalEditar}
             width={1000}
@@ -581,21 +594,26 @@ const Reclamos = () => {
           >
             <div>
               <div>
-                <FormularioEditarReclamo selectRow={selectedRow} closeModal={closeModalEditar}></FormularioEditarReclamo>
+                <FormularioEditarReclamo
+                  selectRow={selectedRow}
+                  closeModal={closeModalEditar}
+                ></FormularioEditarReclamo>
               </div>
-           
             </div>
-            
           </Modal>
         )}
         {isModalEliminarOpen && (
           <Modal
-          title={
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <DeleteOutlined style={{ color: "red", fontSize: "20px" }} />
-              <span style={{ color: "red", fontWeight: "bold" }}>ELIMINACIÓN DE RECLAMO</span>
-            </div>
-          }
+            title={
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                <DeleteOutlined style={{ color: "red", fontSize: "20px" }} />
+                <span style={{ color: "red", fontWeight: "bold" }}>
+                  ELIMINACIÓN DE RECLAMO
+                </span>
+              </div>
+            }
             open={isModalEliminarOpen}
             onCancel={closeModalEliminar}
             width={600}
@@ -617,18 +635,14 @@ const Reclamos = () => {
         )}
 
         {isModalExitoOpen && (
-         <Modal
-         title="Resultado"
-         open={isModalExitoOpen}
-         footer={null}
-         onCancel={() => setIsModalExitoOpen(false)}
-       >
-         <Result
-           status="success"
-           title="Se eliminó el reclamo con éxito!"          
-         />
-       </Modal>
-       
+          <Modal
+            title="Resultado"
+            open={isModalExitoOpen}
+            footer={null}
+            onCancel={() => setIsModalExitoOpen(false)}
+          >
+            <Result status="success" title="Se eliminó el reclamo con éxito!" />
+          </Modal>
         )}
       </div>
     </ConfigProvider>
