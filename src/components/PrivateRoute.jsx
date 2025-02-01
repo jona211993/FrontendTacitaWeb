@@ -6,7 +6,7 @@ import { useData } from "../context/DataContext";
 // Este componente se encarga de proteger las rutas privadas
 const PrivateRoute = ({ element }) => {
     const { autenticado } = useData(); // Usamos el estado autenticado del contexto
-
+    console.log("las cookies son  "+ Cookies.get("token"))
     // Verifica si el usuario está autenticado y si el token existe en las cookies
     if (autenticado===false || !Cookies.get("token")) {
       return <Navigate to="/login" replace />;
