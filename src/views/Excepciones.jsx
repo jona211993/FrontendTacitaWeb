@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import axios from "axios"; // Importar Axios
 import { useData } from "../context/DataContext.jsx";
@@ -10,7 +11,7 @@ const Excepciones = () => {
   const [datos, setDatos] = useState([]); // Estado para almacenar los datos
   const [verModalVer, setVerModalVer] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
   const showModalVer = (row) => {
     setSelectedRow(row); // Guardar la fila seleccionada
     if (user.idCargo !== 4) {
@@ -42,7 +43,7 @@ const Excepciones = () => {
     console.log("datos: ", user);
     try {
       const response = await axios.post(
-        "http://localhost:3005/excepciones/listaExcepciones",
+        `${API_URL}/excepciones/listaExcepciones`,
         {
           id_cargo: user.idCargo, // Campo id_cargo enviado desde el contexto o prop
           usuario: user.alias, // Campo usuario enviado desde el contexto o prop

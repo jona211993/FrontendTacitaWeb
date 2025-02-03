@@ -30,6 +30,7 @@ const FormExcepcion = ({ selectedRow, closeModalVer, recargarPagina }) => {
 
   // Creare este estado para controlar la visualizacion de los campos a llenar cuando sea una MODIFICACION
   const [banderaModificar, setBanderaModificar] = useState(false);
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     if (selectedRow?.idDeudor && selectedRow?.idEntidadBancaria) {
@@ -43,7 +44,7 @@ const FormExcepcion = ({ selectedRow, closeModalVer, recargarPagina }) => {
       const obtenerProductos = async () => {
         try {
           const response = await axios.post(
-            "http://localhost:3005/obtenerDatosProductos",
+            `${API_URL}/obtenerDatosProductos`,
             body
           );
 
@@ -120,7 +121,7 @@ const FormExcepcion = ({ selectedRow, closeModalVer, recargarPagina }) => {
   const handleConfirmarAprobacion = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3005/excepciones/evaluarExcepcion",
+        `${API_URL}/excepciones/evaluarExcepcion`,
         {
           idExcepcion: selectedRow.idExcepcion,
           idDeudor: selectedRow.idDeudor,
@@ -168,7 +169,7 @@ const FormExcepcion = ({ selectedRow, closeModalVer, recargarPagina }) => {
   const handleRechazar = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3005/excepciones/evaluarExcepcion",
+        `${API_URL}/excepciones/evaluarExcepcion`,
         {
           idExcepcion: selectedRow.idExcepcion,
           idDeudor: selectedRow.idDeudor,
@@ -229,7 +230,7 @@ const FormExcepcion = ({ selectedRow, closeModalVer, recargarPagina }) => {
       console.log(requestBody);
 
       const response = await axios.post(
-        "http://localhost:3005/excepciones/evaluarExcepcion",
+        `${API_URL}/excepciones/evaluarExcepcion`,
         requestBody
       );
 

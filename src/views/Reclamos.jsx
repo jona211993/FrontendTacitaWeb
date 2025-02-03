@@ -39,6 +39,7 @@ const Reclamos = () => {
   const [isModalExitoOpen, setIsModalExitoOpen] = useState(false);
   const [habilitarBotonBuscar, setHabilitarBotonBuscar] = useState(false);
   const [filterEstado, setFilterEstado] = useState(""); // Estado del filtro
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
 
   const showModalVer = () => {
     setIsModalVerOpen(true);
@@ -132,7 +133,7 @@ const Reclamos = () => {
         observacion: null, // Otro campo nulo
       };
 
-      const response = await fetch("http://localhost:3005/eliminarReclamo", {
+      const response = await fetch(`${API_URL}/eliminarReclamo`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -170,7 +171,7 @@ const Reclamos = () => {
 
   const obtenerDatos = async () => {
     try {
-      const respuesta = await fetch("http://localhost:3005/reclamos", {
+      const respuesta = await fetch(`${API_URL}/reclamos`, {
         method: "GET",
       });
 
@@ -189,6 +190,7 @@ const Reclamos = () => {
 
   useEffect(() => {
     obtenerDatos();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valorSeleccionado]);
   useEffect(() => {
     console.log("id es:", id )

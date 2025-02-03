@@ -51,8 +51,10 @@ const FormularioEditarReclamo = ({ selectRow ,closeModal }) => {
   const [errors, setErrors] = useState({}); // Estado para errores
   // Para el modal de registro exitoso
   const [mostrarModalExitoso, setMostrarModalExitoso] = useState(false);
+  
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-  const validateFields = () => {
+  const validateFields = () => {    
     const newErrors = {};
 
     if (!dniReclamo.trim()) {
@@ -255,7 +257,7 @@ const FormularioEditarReclamo = ({ selectRow ,closeModal }) => {
 
   // Para validacion de document
   const handelValidarDocumento = async () => {
-    const url = "http://localhost:3005/validarDocumento"; // Reemplaza con tu URL
+    const url = `${API_URL}/validarDocumento`; // Reemplaza con tu URL
 
     try {
       const response = await fetch(url, {
@@ -321,7 +323,7 @@ const FormularioEditarReclamo = ({ selectRow ,closeModal }) => {
 
   // Para validacion de deudor
   const handelValidarDocumentoDeudor = async () => {
-    const url = "http://localhost:3005/validarDocumento"; // Reemplaza con tu URL
+    const url = `${API_URL}/validarDocumento`; // Reemplaza con tu URL
     try {
       const response = await fetch(url, {
         method: "POST",

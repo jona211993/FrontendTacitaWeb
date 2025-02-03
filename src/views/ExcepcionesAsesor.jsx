@@ -8,7 +8,7 @@ import { SyncOutlined} from "@ant-design/icons";
 const ExcepcionesAsesor = () => {
   const { user } = useData();
   const [datos, setDatos] = useState([]); // Estado para almacenar los datos
- 
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
   
 
 
@@ -17,7 +17,7 @@ const ExcepcionesAsesor = () => {
     console.log("datos: ", user);
     try {
       const response = await axios.post(
-        "http://localhost:3005/excepciones/listaExcepcionesHistoricaAsesor",
+        `${API_URL}/excepciones/listaExcepcionesHistoricaAsesor`,
         {
           idgestor: user.idMovEmpleado, // Campo id_cargo enviado desde el contexto o prop          
         }

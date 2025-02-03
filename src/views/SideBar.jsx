@@ -31,6 +31,9 @@ import { useNavigate } from "react-router-dom";
 import PrivateRoute from "../components/PrivateRoute.jsx";
 import Excepciones from "./Excepciones.jsx";
 import ExcepcionesAsesor from "./ExcepcionesAsesor.jsx";
+import BaseManual from "./modulo_bases/BaseManual.jsx";
+import SeguimientoPDP from "./modulo_bases/SeguimientoPDP.jsx";
+import SeguimientoVLL from "./modulo_bases/SeguimientoVLL.jsx";
 // import Cookies from "js-cookie";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -116,7 +119,7 @@ const SideBar = () => {
     ]),
 
     (user.idCargo === 1)
-      ? getItem("Lista Excepciones (Asesor)", "expertisERP/excepciones/Asesor", <FlagOutlined />)
+      ? getItem("Lista Excepciones.", "expertisERP/excepciones/Asesor", <FlagOutlined />)
       : getItem("Lista Excepciones", "expertisERP/excepciones", <FlagOutlined />)
     ,
 
@@ -130,9 +133,9 @@ const SideBar = () => {
       getItem("Reconocidos", "expertisERP/pagosReconocidos"),
     ]),
     getItem("Bases", "sub3", <TeamOutlined />, [
-      getItem("Base Manual", "8"),
-      getItem("Seguimiento PDP", "9"),
-      getItem("Seguimiento VLL", "10"),
+      getItem("Base Manual", "expertisERP/baseManual"),
+      getItem("Seguimiento PDP", "expertisERP/seguimientoPDP"),
+      getItem("Seguimiento VLL", "expertisERP/seguimientoVLL"),
     ]),
     getItem("Agendados", "11", <CalendarOutlined />),
     getItem("Incidencias", "sub4", <WarningOutlined />, [
@@ -272,6 +275,18 @@ const SideBar = () => {
               <Route
                 path="/excepciones"
                 element={<PrivateRoute element={<Excepciones />} />}
+              />
+              <Route
+                path="/baseManual"
+                element={<PrivateRoute element={<BaseManual />} />}
+              />
+              <Route
+                path="/seguimientoPDP"
+                element={<PrivateRoute element={<SeguimientoPDP />} />}
+              />
+              <Route
+                path="/seguimientoVLL"
+                element={<PrivateRoute element={<SeguimientoVLL />} />}
               />
               
             </Routes>

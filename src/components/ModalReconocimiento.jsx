@@ -44,6 +44,8 @@ const ModalReconocimiento = ({ elejida, cerrarModal }) => {
   // Estado para el modal de satifaccion
   const [verModalRespuestaOK, setVerModalRespuestaOK] = useState(false);
 
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
+
   // Función para mostrar y ocultar el modal automáticamente
   const showModal = (message, type) => {
     setModalMessage(message);
@@ -97,7 +99,7 @@ const ModalReconocimiento = ({ elejida, cerrarModal }) => {
   const fetchOptions = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3005/listarCarteras", {
+      const response = await fetch(`${API_URL}/listarCarteras`, {
         method: "POST", // Cambia el método a POST
         headers: {
           "Content-Type": "application/json", // Especifica el tipo de contenido
@@ -244,7 +246,7 @@ const ModalReconocimiento = ({ elejida, cerrarModal }) => {
 
  // Funcion para Reconocer RELACION CONCEPTO:
  const registrarRelacionConcepto = async (idConcepto) => {
-  const url = 'http://localhost:3005/reconocerConceptoPago';
+  const url = `${API_URL}/reconocerConceptoPago`;
   const body = {
     idPago: elejida.idPago,
     idConceptoPago: idConcepto,
