@@ -4,7 +4,7 @@ import { useData } from "../../context/DataContext.jsx";
 import axios from "axios"; // Importar Axios
 
 const SeguimientoVLL = () => {
-    const { user } = useData();
+    const { user , setCliente} = useData();
     const [datos, setDatos] = useState([]); // Estado para almacenar los datos
     const API_URL = import.meta.env.VITE_BACKEND_URL;
   
@@ -37,6 +37,26 @@ const SeguimientoVLL = () => {
       obtenerDatos();
     }, []);
   
+     // Para abrir la pestaña nueva para el boton detalle
+  const handelVer = async (row) => {
+    //Actualizar el cliente que estas elijiendo en el context
+    // ENPOINT DONDE MANDO EL DOCUMENTO DEL CLIENTE Y USO UN GET CON LOS DATOS DEL CLIENTE
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/obtenerCliente/${
+          row.documento
+        }`
+      );
+      console.log("Datos obtenidos:", response.data.data[0]);
+      setCliente(response.data.data[0]);
+      // message.success("Datos obtenidos correctamente");
+      window.open("/expertisERP/detalleCliente", "_blank");
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+      // message.error("Error al obtener los datos");
+    }
+    alert(row.documento)
+  };
     return (
       <div>
         <div className="flex flex-col items-center  justify-center ">
@@ -44,7 +64,7 @@ const SeguimientoVLL = () => {
           <div className="flex items-center justify-center w-3/4 bg-red-500">
             <table className="tabla text-xs border-2 border-blue-900">
               <thead>
-                <tr>                  
+                <tr >                  
                   <th>DOCUMENTO</th>
                   <th>CARTERA</th>
                   <th>ASESOR</th>
@@ -54,7 +74,13 @@ const SeguimientoVLL = () => {
               <tbody>
                 {datos.length > 0 ? (
                   datos.map((row) => (
-                    <tr key={row.documento}>
+                    <tr key={row.documento}
+                    onDoubleClick={() => handelVer(row)}
+                    style={{
+                      backgroundColor: row.REALIZO_SEG === "SI" ? "#a8ef84" : "#e97d65",
+                      color:   "black " ,
+                    }}
+                    >
                       <td>{row.documento}</td>
                       <td>{row.cartera}</td>
                       <td>{row.asesor}</td>

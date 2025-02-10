@@ -54,7 +54,11 @@ const SeguimientoPDP = () => {
               <tbody>
                 {datos.length > 0 ? (
                   datos.map((row) => (
-                    <tr key={row.documento}>
+                    <tr key={row.documento}
+                    style={{
+                      backgroundColor: row.REALIZO_SEG === "SI" ? "#a8ef84" : "#e97d65",
+                      color:   "black " ,
+                    }}>
                       <td>{row.documento}</td>
                       <td>{row.cartera}</td>
                       <td>{row.asesor}</td>

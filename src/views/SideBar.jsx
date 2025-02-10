@@ -34,6 +34,7 @@ import ExcepcionesAsesor from "./ExcepcionesAsesor.jsx";
 import BaseManual from "./modulo_bases/BaseManual.jsx";
 import SeguimientoPDP from "./modulo_bases/SeguimientoPDP.jsx";
 import SeguimientoVLL from "./modulo_bases/SeguimientoVLL.jsx";
+import Agendados from "./Agendados.jsx";
 // import Cookies from "js-cookie";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -49,17 +50,25 @@ function getItem(label, key, icon, children) {
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { cliente, user } = useData();
+  const { cliente, user, setClientesBusqueda ,setProductosClienteBusqueda, setCliente,setAutenticado} = useData();
   const location = useLocation();
   const [selectedKeys, setSelectedKeys] = useState([]);
   const navigate = useNavigate();
 
+  
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
+
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:3005/logout", {
+      const response = await fetch(`${API_URL}/logout`, {
         method: "GET",
         credentials: "include",
       });
+      localStorage.clear();
+      setClientesBusqueda(null);
+      setProductosClienteBusqueda([])
+      setAutenticado(false)
+      setCliente(null)
 
       if (!response.ok) {
         throw new Error(`Error en la solicitud: ${response.status}`);
@@ -137,7 +146,7 @@ const SideBar = () => {
       getItem("Seguimiento PDP", "expertisERP/seguimientoPDP"),
       getItem("Seguimiento VLL", "expertisERP/seguimientoVLL"),
     ]),
-    getItem("Agendados", "11", <CalendarOutlined />),
+    getItem("Agendados", "expertisERP/agendados", <CalendarOutlined />),
     getItem("Incidencias", "sub4", <WarningOutlined />, [
       getItem("Lista", "12"),
       getItem("Registro", "13"),
@@ -182,7 +191,7 @@ const SideBar = () => {
         >
           {items.map((item) =>
             item.children ? (
-              <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
+              <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}  >
                 {item.children.map((child) =>
                   child.children ? (
                     <Menu.SubMenu key={child.key} title={child.label}>
@@ -287,6 +296,10 @@ const SideBar = () => {
               <Route
                 path="/seguimientoVLL"
                 element={<PrivateRoute element={<SeguimientoVLL />} />}
+              />
+               <Route
+                path="/agendados"
+                element={<PrivateRoute element={<Agendados />} />}
               />
               
             </Routes>

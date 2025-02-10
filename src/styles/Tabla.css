@@ -35,6 +35,13 @@
   }
   
   .fila-seleccionada {
-    background-color: #94bdf7 !important;
+    background-color: #94bdf4 !important;
   }
   
+  .tabla tbody tr:hover {
+    background-color: #add8e6 !important; /* Azul claro */
+    cursor: pointer;
+  }
+  .tabla tbody tr {
+    transition: background-color 0.3s ease-in-out;
+  }
